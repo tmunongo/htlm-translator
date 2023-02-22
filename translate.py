@@ -3,7 +3,7 @@ import os
 import translators as ts
 from bs4 import BeautifulSoup
 
-target_language = 'hi'
+target_language = 'en'
 source_language = 'fr'
 
 # function to translate the text
@@ -32,15 +32,19 @@ for root, dirs, files in os.walk('../xtras'):
         if file.endswith('.html'):
             with open(os.path.join(root, file), 'r+', encoding='utf-8') as f:
                 data = f.read()
-                print(data)
+                # print(data)
+                with open('list.txt') as fi:
+                    list = fi.read()
                 # use googletrans to translate the contents of the file
                 translated = translate_text(target_language, data)
-                if (len(translated) > 0):
+                if (len(translated) > 0 and f.name not in list):
                     print("updating file")
                     # clear the original contents
                     f.truncate(0)
                     # write the translated data back to the file
                     f.write(translated)
+                    with open('list.txt', 'w') as f:
+                        f.write(f.name + '\n')
                     f.close()
 
 print("Done!")
