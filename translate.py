@@ -4,7 +4,7 @@ import goslate
 import translators as ts
 from bs4 import BeautifulSoup
 
-target_language = 'hi'
+target_language = 'fr'
 source_language = 'fr'
 
 gs = goslate.Goslate()
@@ -43,7 +43,10 @@ for root, dirs, files in os.walk('../xtras'):
                     list = fi.read()
                     fi.close()
                 # use googletrans to translate the contents of the file
-                translated = translate_text(target_language, data)
+                if (file in list):
+                    continue
+                else:
+                    translated = translate_text(target_language, data)
                 if (len(translated) > 0 and file not in list):
                     print("updating file")
                     # clear the original contents
